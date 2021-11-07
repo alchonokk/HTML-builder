@@ -40,7 +40,10 @@ const toDel = async () => {
     //   const files = await readdir(dirr1);
       for (const file of files){
         let delfile=path.join(dirr1,file.name);
-        await fs.unlink(delfile);
+        if (file.isFile()) {
+          await fs.unlink(delfile);
+        }
+    
       }
     } catch (err) {
       console.error(err);
