@@ -1,4 +1,5 @@
 const { copyFile }= require('fs/promises');
+const { copyDir }= require('fs/promises');
 // const constants = require('fs').promises;
 const { readdir }= require('fs/promises');
 const fs = require('fs').promises;
@@ -43,6 +44,7 @@ const toDel = async () => {
       }
     } catch (err) {
       console.error(err);
+      
     }
     }
 toDel();
@@ -54,10 +56,14 @@ const doSomething = async () => {
       for (const file of files){
         let from=path.join(dirr,file.name);
         let to=path.join(dirr1,file.name);
+
+        if (file.isFile()) {
         await copyFile(from, to);
+        }
       }
     } catch (err) {
       console.error(err);
+      
     }
 }
 doSomething();
