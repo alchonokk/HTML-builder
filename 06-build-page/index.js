@@ -3,6 +3,7 @@ const path = require('path');
 const dirr=path.join(__dirname,'styles')
 const dirr1=path.join(__dirname,'project-dist','style.css')
 const dirr2=path.join(__dirname,'project-dist','index.html')
+const { copyFile }= require('fs/promises');
 
 const fs1 = require('fs');
 const fs = require('fs').promises;
@@ -71,5 +72,42 @@ const doHTML = async () => {
       console.error(err);
   }   
 }
-
 doHTML();
+
+
+const dirr3=path.join(__dirname,'project-dist','assets');
+const fromDirr3=path.join(__dirname,'assets');
+
+// console.log(dirr3);
+// console.log(fromDirr3);
+
+fs.mkdir(path.join(__dirname,'project-dist','assets'), { recursive: true }, (err) => {
+  if (err) throw err;
+})
+
+
+  const doCopyAssets = (fromDirr3, dirr3)=> {
+  
+    fs1.readdir(fromDirr3,{withFileTypes: true}, function (err,files) {
+    if (err) {
+      return console.log(err, '90');
+    }
+    for (const file of files){
+    // console.log(file.name)
+      if (file.isDirectory()) {
+        fs.mkdir(path.join(dirr3, file.name), { recursive: true }, (err) => {
+          if (err) throw err;
+        });
+        doCopyAssets(path.join(fromDirr3, file.name), path.join(dirr3, file.name));
+      } else{
+        let from=path.join(fromDirr3,file.name);
+        let to=path.join(dirr3,file.name);
+        fs1.copyFile(from, to, (err) => {
+          if (err) throw err;
+        });;
+      }
+    }
+    })  
+}
+
+doCopyAssets(fromDirr3, dirr3);
