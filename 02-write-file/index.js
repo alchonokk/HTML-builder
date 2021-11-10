@@ -18,3 +18,7 @@ process.on('exit', () => {
       console.log('Goodbye!');
 });
 
+process.on('SIGINT', () => {
+    console.log('Goodbye!');
+    process.exit();
+});
