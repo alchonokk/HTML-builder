@@ -24,7 +24,7 @@ try {
     if (extn ==='.css'){
         const readfile=fs1.createReadStream(path.join(dirr,file.name), 'utf-8')
         readfile.pipe(outfile);
-        // console.log(file.name);  
+         
     } 
 } 
 }
@@ -74,13 +74,14 @@ const doHTML = async () => {
 }
 doHTML();
 
+fs.mkdir(path.join(__dirname,'project-dist','assets'), { recursive: true }, (err) => {
+  if (err) throw err;
+})
+
 const dirr3=path.join(__dirname,'project-dist','assets');
 const fromDirr3=path.join(__dirname,'assets');
   
 const doCopyAssets = async (fromDirr3, dirr3) => {
-  
-// const doCopyAssets = (fromDirr3, dirr3)=> {
-  
     fs1.readdir(fromDirr3,{withFileTypes: true}, function (err,files) {
     if (err) {
       return console.log(err);
@@ -106,39 +107,54 @@ const doCopyAssets = async (fromDirr3, dirr3) => {
     }
     })  
 }
+doCopyAssets(fromDirr3, dirr3)
 
-const toDel = async (dirrDel) => {
 
-  fs1.readdir(dirrDel,{withFileTypes: true}, function (err,files) {
-    if (err) {
-      return console.log(err);
-    }
-    for (const file of files){
+
+
+
+// const toDel = async (dirrDel) => {
+  
+//   fs1.readdir(dirrDel,{withFileTypes: true}, function (err,files) {
+//     if (err) {
+//       return console.log(err);
+//     }
+//     for (const file of files){
     
-      if (file.isDirectory()) {
-        fs.rm(path.join(dirrDel,file.name),{ recursive: true, force: true }, function(err) {
-                if (err) {
-                   throw err
-                } 
-        });
-      } else{
-       fs.unlink(path.join(dirrDel,file.name));
-      }
-    }
-})  
-  // doCopyAssets(fromDirr3, dirr3);
-}
-// toDel(dirr3);
+//       if (file.isDirectory()) {
+//         fs.rm(path.join(dirrDel,file.name),{ recursive: true, force: true }, function(err) {
+//                 if (err) {
+//                    throw err
+//                 } 
+//         });
+//       } else{
+//        fs.unlink(path.join(dirrDel,file.name));
+//       }
+//     }
+// })  
+  
+// }
+// toDel(dirr3).then (doCopyAssets(fromDirr3, dirr3));
+
+// toDel(dirr3)
 
 
-const doSomething = async ()=> {
-  await toDel(dirr3);
-    fs.mkdir(path.join(__dirname,'project-dist','assets'), { recursive: true }, (err) => {
-      if (err) throw err;
-    })
-    
-}  
-doSomething()
 
-doCopyAssets(fromDirr3, dirr3);
+
+// const doSomething = async ()=> {
+//   await toDel(dirr3);
+//   doCopyAssets(fromDirr3, dirr3);
+// }  
+// doSomething()
+
+// async function doSomething() {
+//   await toDel(dirr3);
+  
+//   return Promise.all
+//   // doCopyAssets(fromDirr3, dirr3);
+// }  
+// doSomething()
+
+// doSomething().then (doCopyAssets(fromDirr3, dirr3));
+// doCopyAssets(fromDirr3, dirr3);
 
